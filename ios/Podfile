@@ -1,0 +1,71 @@
+# Minimum iOS for Firebase (cloud_firestore, firebase_storage)
+platform :ios, '13.0'
+
+# CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+
+project 'Runner', {
+  'Debug' => :debug,
+  'Profile' => :release,
+  'Release' => :release,
+}
+
+def flutter_root
+  generated_xcode_build_settings_path = File.expand_path(File.join('..', 'Flutter', 'Generated.xcconfig'), __FILE__)
+  unless File.exist?(generated_xcode_build_settings_path)
+    raise "#{generated_xcode_build_settings_path} must exist. If you're running pod install manually, make sure flutter pub get is executed first"
+  end
+
+  File.foreach(generated_xcode_build_settings_path) do |line|
+    matches = line.match(/FLUTTER_ROOT\=(.*)/)
+    return matches[1].strip if matches
+  end
+  raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get"
+end
+
+require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
+
+flutter_ios_podfile_setup
+
+target 'Runner' do
+  use_frameworks!
+
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  target 'RunnerTests' do
+    inherit! :search_paths
+  end
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    flutter_additional_ios_build_settings(target)
+  end
+  # Copy Flutter engine framework before Pods-Runner links
+  generated_path = File.join(__dir__, 'Flutter', 'Generated.xcconfig')
+  flutter_root_val = nil
+  File.foreach(generated_path) { |line| flutter_root_val = $1.strip if line.match(/FLUTTER_ROOT\=(.*)/) } if File.exist?(generated_path)
+  xcframework_base = flutter_root_val ? File.join(flutter_root_val, 'bin', 'cache', 'artifacts', 'engine', 'ios', 'Flutter.xcframework') : nil
+  simulator_slices = %w[ios-arm64_x86_64-simulator ios-iphonesimulator]
+  engine_framework = nil
+  if xcframework_base && File.directory?(xcframework_base)
+    simulator_slices.each do |slice|
+      path = File.join(xcframework_base, slice, 'Flutter.framework')
+      if File.directory?(path)
+        engine_framework = path
+        break
+      end
+    end
+  end
+  # Add Copy Flutter Engine to every target that depends on Flutter (so framework exists before they link).
+  flutter_target = installer.pods_project.targets.find { |t| t.name == 'Flutter' }
+  targets_needing_flutter = installer.pods_project.targets.select do |t|
+    t.name == 'Pods-Runner' || (t.respond_to?(:dependencies) && t.dependencies.any? { |d| d.target == flutter_target })
+  end
+  targets_needing_flutter.each do |target|
+    next unless target.respond_to?(:new_shell_script_build_phase) && engine_framework
+    phase = target.new_shell_script_build_phase('Copy Flutter Engine')
+    phase.shell_script = "set -e\nDEST=\"${PODS_CONFIGURATION_BUILD_DIR}/Flutter\"\nmkdir -p \"$DEST\"\nrm -rf \"$DEST/Flutter.framework\"\ncp -R \"#{engine_framework}\" \"$DEST/\"\n"
+    target.build_phases.delete(phase)
+    target.build_phases.unshift(phase)
+  end
+end

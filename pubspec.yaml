@@ -1,0 +1,47 @@
+name: personal_construction_manager
+description: BuildLedger – Personal Construction Manager. Track construction expenses, materials, labour, and payments.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+  # State management, navigation, DI
+  get: ^4.6.6
+
+  # Firebase
+  firebase_core: ^3.8.1
+  cloud_firestore: ^5.5.0
+  firebase_storage: ^12.3.4
+
+  # UI & Charts
+  fl_chart: ^0.69.0
+  google_fonts: ^6.2.1
+  cached_network_image: ^3.4.1
+  shimmer: ^3.0.0
+
+  # Utilities
+  image_picker: ^1.1.2
+  intl: ^0.19.0
+  uuid: ^4.5.1
+  path_provider: ^2.1.4
+  pdf: ^3.11.1
+  printing: ^5.13.3
+  collection: ^1.18.0
+  equatable: ^2.0.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/illustrations/

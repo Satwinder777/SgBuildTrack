@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "538360665929",
+    "project_id": "personal-construction-manager",
+    "storage_bucket": "personal-construction-manager.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:538360665929:android:04b1a4f32785631b4fac98",
+        "android_client_info": {
+          "package_name": "com.example.personal_construction_manager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzVepjShaCDbgeWlz6mJTNyHGjMsmNT3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
