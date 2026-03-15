@@ -112,6 +112,7 @@ lib/
 ├── models
 └── widgets
 
+
 Benefits:
 
 - Scalable architecture  
@@ -125,12 +126,15 @@ Benefits:
 
 Collections used:
 
+
 workers
 attendance
 materials
 payments
 
+
 Example Attendance Record:
+
 
 attendance
 workerId
@@ -138,6 +142,7 @@ date
 attendanceStatus
 hoursWorked
 overtimeAmount
+
 
 ---
 
