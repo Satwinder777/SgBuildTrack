@@ -35,9 +35,10 @@ class _AnimatedCardState extends State<AnimatedCard>
       begin: const Offset(0, 0.08),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _controller, curve: widget.curve));
-    _fade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: widget.curve),
-    );
+    _fade = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: widget.curve));
     Future.delayed(Duration(milliseconds: widget.delayMs), () {
       if (mounted) _controller.forward();
     });
@@ -56,10 +57,7 @@ class _AnimatedCardState extends State<AnimatedCard>
       builder: (context, child) {
         return FadeTransition(
           opacity: _fade,
-          child: SlideTransition(
-            position: _slide,
-            child: child,
-          ),
+          child: SlideTransition(position: _slide, child: child),
         );
       },
       child: widget.child,

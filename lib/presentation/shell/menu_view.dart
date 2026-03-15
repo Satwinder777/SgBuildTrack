@@ -7,12 +7,36 @@ class MenuView extends StatelessWidget {
   const MenuView({super.key});
 
   static const _menuItems = [
-    _MenuItem(route: AppRoutes.materials, label: AppStrings.materials, icon: Icons.inventory_2),
-    _MenuItem(route: AppRoutes.labour, label: AppStrings.labour, icon: Icons.engineering),
-    _MenuItem(route: AppRoutes.attendance, label: AppStrings.attendance, icon: Icons.event_available),
-    _MenuItem(route: AppRoutes.workerPayments, label: AppStrings.workerPayments, icon: Icons.payments),
-    _MenuItem(route: AppRoutes.reports, label: AppStrings.reports, icon: Icons.analytics),
-    _MenuItem(route: AppRoutes.settings, label: AppStrings.settings, icon: Icons.settings),
+    _MenuItem(
+      route: AppRoutes.materials,
+      label: AppStrings.materials,
+      icon: Icons.inventory_2,
+    ),
+    _MenuItem(
+      route: AppRoutes.labour,
+      label: AppStrings.labour,
+      icon: Icons.engineering,
+    ),
+    _MenuItem(
+      route: AppRoutes.attendance,
+      label: AppStrings.attendance,
+      icon: Icons.event_available,
+    ),
+    _MenuItem(
+      route: AppRoutes.workerPayments,
+      label: AppStrings.workerPayments,
+      icon: Icons.payments,
+    ),
+    _MenuItem(
+      route: AppRoutes.reports,
+      label: AppStrings.reports,
+      icon: Icons.analytics,
+    ),
+    _MenuItem(
+      route: AppRoutes.settings,
+      label: AppStrings.settings,
+      icon: Icons.settings,
+    ),
   ];
 
   @override
@@ -62,7 +86,11 @@ class MenuView extends StatelessWidget {
 }
 
 class _MenuItem {
-  const _MenuItem({required this.route, required this.label, required this.icon});
+  const _MenuItem({
+    required this.route,
+    required this.label,
+    required this.icon,
+  });
   final String route;
   final String label;
   final IconData icon;

@@ -87,5 +87,7 @@ class AppPages {
       binding: ReportsBinding(),
       transition: Transition.fade,
     ),
+
+    //test
   ];
 }

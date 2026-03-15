@@ -16,10 +16,7 @@ class MainShellView extends StatefulWidget {
 class _MainShellViewState extends State<MainShellView> {
   int _currentIndex = 0;
 
-  final _pages = const [
-    DashboardView(),
-    MenuView(),
-  ];
+  final _pages = const [DashboardView(), MenuView()];
 
   @override
   void initState() {
@@ -30,10 +27,7 @@ class _MainShellViewState extends State<MainShellView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _pages),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           boxShadow: [

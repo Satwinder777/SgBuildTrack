@@ -34,9 +34,10 @@ class _AnimatedCounterState extends State<AnimatedCounter>
       duration: Duration(milliseconds: widget.durationMs),
       vsync: this,
     );
-    _animation = Tween<double>(begin: 0, end: widget.value).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    _animation = Tween<double>(
+      begin: 0,
+      end: widget.value,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
     _controller.forward();
   }
 
@@ -45,7 +46,9 @@ class _AnimatedCounterState extends State<AnimatedCounter>
     super.didUpdateWidget(oldWidget);
     if (oldWidget.value != widget.value) {
       _animation = Tween<double>(begin: _animation.value, end: widget.value)
-          .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
+          .animate(
+            CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
+          );
       _controller.forward(from: 0);
     }
   }
