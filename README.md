@@ -1,6 +1,6 @@
-# 🏗 BuildTrack – Construction Management App
+# 🏗 SGBuildTrack – Construction Management App
 
-BuildTrack is a modern **Construction Management Application** built with Flutter.  
+SGBuildTrack is a modern **Construction Management Application** built with Flutter.  
 It helps contractors and site managers efficiently manage **workers, attendance, materials, payments, and reports** from a single dashboard.
 
 The app simplifies daily construction operations by providing **real-time tracking, cost monitoring, and powerful insights** for better decision-making.
@@ -226,7 +226,7 @@ Planned upgrades:
 # 👨‍💻 Author
 
 **Satwinder Singh**  
-Flutter Developer
+Senior Flutter Developer
 
 ---
 
