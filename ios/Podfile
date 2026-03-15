@@ -1,4 +1,4 @@
-# Minimum iOS for Firebase (cloud_firestore, firebase_storage)
+# Minimum iOS for Firebase (cloud_firestore, firebase_storage). Xcode 16: force pods off 9/10/11 via post_install.
 platform :ios, '13.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
@@ -37,10 +37,16 @@ target 'Runner' do
 end
 
 post_install do |installer|
+  # Force all pods to iOS 13.0 so Xcode 16 does not see 9.0/10.0/11.0 (Firebase requires 13+)
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+    end
+  end
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
   end
-  # Copy Flutter engine framework before Pods-Runner links
+  # Copy Flutter engine framework before Pods-Runner links (clean then copy to avoid "File exists" in CI)
   generated_path = File.join(__dir__, 'Flutter', 'Generated.xcconfig')
   flutter_root_val = nil
   File.foreach(generated_path) { |line| flutter_root_val = $1.strip if line.match(/FLUTTER_ROOT\=(.*)/) } if File.exist?(generated_path)
@@ -64,7 +70,8 @@ post_install do |installer|
   targets_needing_flutter.each do |target|
     next unless target.respond_to?(:new_shell_script_build_phase) && engine_framework
     phase = target.new_shell_script_build_phase('Copy Flutter Engine')
-    phase.shell_script = "set -e\nDEST=\"${PODS_CONFIGURATION_BUILD_DIR}/Flutter\"\nmkdir -p \"$DEST\"\nrm -rf \"$DEST/Flutter.framework\"\ncp -R \"#{engine_framework}\" \"$DEST/\"\n"
+    # Remove entire Flutter dest dir first to avoid "cp: Flutter.framework/_CodeSignature: File exists" in CI
+    phase.shell_script = "set -e\nDEST=\"${PODS_CONFIGURATION_BUILD_DIR}/Flutter\"\nrm -rf \"$DEST\"\nmkdir -p \"$DEST\"\ncp -R \"#{engine_framework}\" \"$DEST/\"\n"
     target.build_phases.delete(phase)
     target.build_phases.unshift(phase)
   end
